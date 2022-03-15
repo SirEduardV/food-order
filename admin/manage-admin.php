@@ -31,33 +31,51 @@
                     <th>Username</th>
                     <th>Actions</th>
                 </tr>
-                <tr>
-                    <td>1. </td>
-                    <td>Eduards Usačovs</td>
-                    <td>eduardsusacovs</td>
-                    <td>
-                        <a href="#" class="btn-secondary">Update Admin</a>
-                        <a href="#" class="btn-danger">Delete Admin</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>2. </td>
-                    <td>Eduards Usačovs</td>
-                    <td>eduardsusacovs</td>
-                    <td>
-                        <a href="#" class="btn-secondary">Update Admin</a>
-                        <a href="#" class="btn-danger">Delete Admin</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>3. </td>
-                    <td>Eduards Usačovs</td>
-                    <td>eduardsusacovs</td>
-                    <td>
-                        <a href="#" class="btn-secondary">Update Admin</a>
-                        <a href="#" class="btn-danger">Delete Admin</a>
-                    </td>
-                </tr>
+
+                <?php
+                    // Query to Get all Admin 
+                    $sql = "SELECT * FROM tbl_admin";
+                    // Execute the Query
+                    $res = mysqli_query($conn, $sql);
+                    // Check whether the Query is Executed or Not
+                    if($res == TRUE) {
+                        // Count Rows to Check whether we have data in database or not
+                        $count = mysqli_num_rows($res); // Function to get all the rows in database
+
+                        $sn = 1; // Create a Variable and Assign the Value 
+                        // Check the number of rows
+                        if($count > 0) {
+                            // We have data in database
+                            while($rows = mysqli_fetch_assoc($res)) {
+                                // Using While loop to get all the data drom database
+                                // And while loop will runs as long as we have data in database
+
+                                // Get individual data
+                                $id = $rows['id'];
+                                $full_name = $rows['full_name'];
+                                $username = $rows['username'];
+
+                                // Display the Values in our Table
+                                ?>
+
+                                <tr>
+                                    <td><?php echo $sn++; ?>. </td>
+                                    <td><?php echo $full_name; ?></td>
+                                    <td><?php echo $username; ?></td>
+                                    <td>
+                                        <a href="#" class="btn-secondary">Update Admin</a>
+                                        <a href="#" class="btn-danger">Delete Admin</a>
+                                    </td>
+                                </tr>
+
+                                <?php
+                            }
+                        } else {
+                            // We do not have data in database
+                        }
+                    }
+                ?>
+
             </table>
         </div>
     </div>

@@ -7,6 +7,13 @@
             <br>
             <br>
 
+            <?php
+                if(isset($_SESSION['add'])) { // Checking whether the Session is Set or Not
+                    echo $_SESSION['add']; // Display the Session message if Set
+                    unset($_SESSION['add']); // Remove Session Message
+                }
+            ?>
+
             <form action="" method="POST">
                 <table class="tbl-30">
                     <tr>
@@ -58,10 +65,24 @@
             password = '$password'
         ";
 
-        // 3. Execute Query and Save Data in Database
-        $conn = mysqli_connect('food-order', 'mysql', '') or die(mysqli_error($e)); // Database Connection
-        $db_select = mysqli_select_db($conn, 'food-order') or die(mysqli_error($e)); // Selecting Database
+        // 3. Executing Query and Saving Data into Database
+        $res = mysqli_query($conn, $sql) or die(mysqli_error($e));
 
-        // $res = mysqli_query($conn, $sql) or die(mysqli_error($e));
+        // 4. Check whether the (query is Executed) data is inserted or not and display appropriate message
+        if($res == TRUE) {
+            // Data Inserted
+            // echo "Data Inserted";
+            // Create a Session Variable to Display Message
+            $_SESSION['add'] = "Admin Added Successfuly";
+            // Redirect Page to Manage Admin
+            header('location:' . SITEURL . 'admin/manage-admin.php');
+        } else {
+            // Failed to Insert Data
+            // echo "Failed to Insert Data";
+            // Create a Session Variable to Display Message
+            $_SESSION['add'] = "Failed to Add Admin";
+            // Redirect Page to Add Admin
+            header('location:' . SITEURL . 'admin/add-admin.php');
+        }
     }
 ?>
